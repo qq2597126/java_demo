@@ -62,6 +62,7 @@ public class CAS {
         System.out.println("设置后的值："+persion1.getLeng());
 
 
+
     }
 }
 class Persion{
