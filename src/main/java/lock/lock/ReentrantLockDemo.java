@@ -3,7 +3,7 @@ package lock.lock;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class LockDemo {
+public class ReentrantLockDemo {
     /**
      *独享锁，支持公平和非公平两种模式，可重入
      */
@@ -39,7 +39,7 @@ public class LockDemo {
 
     public static void main(String[] args) throws InterruptedException {
         new Thread(()->{
-            new LockDemo().addLock();
+            new ReentrantLockDemo().addLock();
         }).start();
 
         Thread.sleep(200);

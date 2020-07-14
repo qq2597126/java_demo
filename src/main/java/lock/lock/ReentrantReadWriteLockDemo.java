@@ -63,7 +63,7 @@ public class ReentrantReadWriteLockDemo {
     public static void main(String[] args) throws InterruptedException {
         ReentrantReadWriteLockDemo demo2 = new ReentrantReadWriteLockDemo();
 
-        // 写 ->读->读->写->读->写
+        // 写 ->读->读->写->读->写 (读锁共享)
         new Thread(()->{
             demo2.set("name","lcy");
         }).start();
