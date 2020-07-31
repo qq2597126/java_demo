@@ -2,10 +2,7 @@ package io.nio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -24,8 +21,8 @@ public class NIOServerDemo {
      */
     class ServerSocketChannelDemo{
         private int port; //端口
-        private Selector selector;
-        ServerSocketChannel serverSocketChannel;
+        private Selector selector; //选择器
+        private ServerSocketChannel serverSocketChannel; //服务器通道
 
         private ExecutorService executorService = new ThreadPoolExecutor(5,10,20, TimeUnit.SECONDS,new ArrayBlockingQueue<>(5));
 
@@ -43,6 +40,26 @@ public class NIOServerDemo {
             serverSocketChannel.configureBlocking(false);
             //绑定端口
             serverSocketChannel.bind(new InetSocketAddress(port));
+
+            //注册相关事件
+        }
+
+        /**
+         *  serverSocketChannel.accept();
+         *  SocketChannel accept = serverSocketChannel.accept();
+         *  accept.read();
+         *  accept.write();
+         */
+
+
+        /**
+         * 注册相关选择器
+         */
+        public void regist() throws ClosedChannelException {
+            serverSocketChannel.register(selector,SelectionKey.OP_CONNECT);
+            serverSocketChannel.register(selector,SelectionKey.OP_READ);
+            serverSocketChannel.register(selector,SelectionKey.OP_WRITE);
+            serverSocketChannel.register(selector,SelectionKey.OP_ACCEPT);
         }
 
         //连接事件
