@@ -196,7 +196,6 @@ public class NioServer {
             while(!isStop){
                 //每个SubReactor 自己做事件分派处理读写事件
                 try {
-
                     int select = selector.select(100);
                     if(select > 0){
                         Set<SelectionKey> selectionKeys = selector.selectedKeys();

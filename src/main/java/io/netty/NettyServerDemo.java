@@ -8,10 +8,6 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.omg.PortableServer.SERVANT_RETENTION_POLICY_ID;
-
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.util.Date;
 
 /**
@@ -29,7 +25,9 @@ public class NettyServerDemo {
     private int port;
 
     /**
-     * 负责请求接收,参数是线程的个数
+     * 1.负责请求接收,参数是线程的个数 （请求连接的EventLoop线程组（相当于NIO中的Select。 进行多线程））
+     * 2.线程个数的默认值为 当前CPU核数*2
+     * 3.合适线程数 1.创建的时候。 2. io.netty.eventLoopThreads 通过设置参数。
      */
     private EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
 
@@ -58,7 +56,11 @@ public class NettyServerDemo {
 
     private void init(){
         serverBootstrap = new ServerBootstrap();
+        /**
+         * 为父（接受者）和子（客户端）设置EventLoopGroup。 这些EventLoopGroup用于处理ServerChannel和Channel的所有事件和IO。
+         */
         serverBootstrap.group(eventLoopGroup,workEventLoopGroup); //设置2个EventLoopGroup
+
         serverBootstrap.channel(NioServerSocketChannel.class);
         serverBootstrap.option(ChannelOption.SO_BACKLOG,100);
         serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
