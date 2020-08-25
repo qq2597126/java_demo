@@ -1,24 +1,20 @@
 package io.nio;
 
 
-import com.sun.org.apache.bcel.internal.generic.Select;
-import utils.NioUtils;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
-import java.nio.channels.spi.SelectorProvider;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class NioServer {
+public class NioServerReactor {
 
     public static void main(String[] args) throws IOException {
-        NioServer nioServer = new NioServer(8080);
+        NioServerReactor nioServer = new NioServerReactor(8080);
         nioServer.start();
     }
 
@@ -49,7 +45,7 @@ public class NioServer {
      */
     private int port;
 
-    public NioServer(int port) throws IOException {
+    public NioServerReactor(int port) throws IOException {
         this.port = port;
         serverSocketChannel = ServerSocketChannel.open();
 

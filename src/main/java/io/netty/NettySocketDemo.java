@@ -10,7 +10,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.nio.ByteBuffer;
+import java.util.Scanner;
 
 /**
  * @author lcy
@@ -52,6 +54,7 @@ public class NettySocketDemo {
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
             ByteBuf buf =  (ByteBuf)msg;
             System.out.println("接收到服务器端的数据："+new String(ByteBufUtil.getBytes(buf),"utf-8"));
+
         }
 
         @Override
@@ -62,7 +65,10 @@ public class NettySocketDemo {
         @Override
         public void channelActive(ChannelHandlerContext ctx) throws Exception {
             System.out.println("连接成功：");
-            ctx.writeAndFlush(Unpooled.copiedBuffer("你过来啊".getBytes()));
+            System.out.println("请输入数据：");
+            Scanner scanner = new Scanner(System.in);
+            String line = scanner.nextLine();
+            ctx.writeAndFlush(Unpooled.copiedBuffer(line.getBytes()));
         }
     }
 }

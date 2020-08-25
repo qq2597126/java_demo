@@ -6,6 +6,7 @@ import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.nio.NioEventLoop;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import java.util.Date;
@@ -120,6 +121,8 @@ public class NettyServerDemo {
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
             System.out.println("收到的数据："+new String(ByteBufUtil.getBytes((ByteBuf)msg),"utf-8"));
+            //Buf不会被复用
+            ctx.write(Unpooled.copiedBuffer("真正的857 857".getBytes()));
             ctx.write(Unpooled.copiedBuffer("真正的857 857".getBytes()));
             ctx.flush();
         }
