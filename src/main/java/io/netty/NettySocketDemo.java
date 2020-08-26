@@ -41,6 +41,16 @@ public class NettySocketDemo {
                 });
         try {
             ChannelFuture sync = bootstrap.connect(host, port).sync();
+            sync.addListener(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture future) throws Exception {
+                    if(future.isSuccess()){
+                        System.out.println("连接成功");
+                    }else{
+                        System.out.println("连接失败");
+                    }
+                }
+            });
             sync.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();

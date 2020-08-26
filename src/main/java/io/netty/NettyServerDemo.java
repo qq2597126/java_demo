@@ -74,7 +74,8 @@ public class NettyServerDemo {
         try {
             ChannelFuture channelFuture= serverBootstrap.bind(port).sync();
             // 阻塞主线程，知道网络服务被关闭
-            channelFuture.channel().closeFuture().sync();
+           channelFuture.channel().closeFuture().sync();
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }finally {
@@ -125,6 +126,12 @@ public class NettyServerDemo {
             ctx.write(Unpooled.copiedBuffer("真正的857 857".getBytes()));
             ctx.write(Unpooled.copiedBuffer("真正的857 857".getBytes()));
             ctx.flush();
+
+            // 释放ByteBuf的两种方法
+            // 方法一：手动释放ByteBuf
+            ((ByteBuf)msg).release();
+            //方法二：调用父类的入站方法，将msg向后传递
+            // super.channelRead(ctx,msg);
         }
 
         @Override

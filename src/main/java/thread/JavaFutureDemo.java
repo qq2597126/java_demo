@@ -84,5 +84,4 @@ public class JavaFutureDemo {
         }
         System.out.println(getCurThreadName() + " 运行结束.");
     }
-
 }
