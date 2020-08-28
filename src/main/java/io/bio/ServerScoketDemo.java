@@ -3,6 +3,8 @@ package io.bio;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ServerScoketDemo {
 
@@ -31,15 +33,17 @@ public class ServerScoketDemo {
                 InputStream inputStream = accept.getInputStream();
                 //读取数据
                 try {
-                    BufferedReader bufferedInputStream = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-                    String msg = "";
-                    while ( (msg = bufferedInputStream.readLine()) != null){
-                        if("bye".equals(msg)){
-                            break;
-                        }
-                        System.out.println(msg);
+                    //BufferedReader bufferedInputStream = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+
+                    //new InputStreamReader(inputStream, "UTF-8");
+                    byte[] buf = new byte[5000];
+                    int len = 0;
+                    while ((len = inputStream.read(buf)) != -1) {
+                        System.out.println(getdate() + "  客户端: （"
+                                + serverSocket.getInetAddress().getHostAddress() + "）说："
+                                + new String(buf, 0, len, "UTF-8"));
                     }
-                    System.out.println("收到的信息来自"+accept.toString());
+                    //System.out.println("收到的信息来自"+accept.toString());
                 }catch (Exception e){
                     e.printStackTrace();
                 }finally {
@@ -48,6 +52,11 @@ public class ServerScoketDemo {
 
             }
         }
-
+        public static String getdate() {
+            Date date = new Date();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            String result = format.format(date);
+            return result;
+        }
     }
 }

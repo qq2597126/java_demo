@@ -16,6 +16,8 @@
         <netty.version>4.1.51.Final</netty.version>
         <junit.version>5.6.2</junit.version>
         <guava.version>29.0-jre</guava.version>
+        <protobuf.maven.plugin.version>0.6.1</protobuf.maven.plugin.version>
+        <protobuf.java.version>3.13.0</protobuf.java.version>
     </properties>
 
 
@@ -58,6 +60,12 @@
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>${protobuf.java.version}</version>
+        </dependency>
 
 
 
@@ -71,6 +79,36 @@
                     <source>8</source>
                     <target>8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>${protobuf.maven.plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <!--proto文件路径-->
+                    <protoSourceRoot>${project.basedir}/protobuf</protoSourceRoot>
+                    <!--目标路径-->
+                    <outputDirectory>${project.build.sourceDirectory}</outputDirectory>
+                    <!--设置是否在生成Java文件之前清空outputDirectory的文件-->
+                    <clearOutputDirectory>false</clearOutputDirectory>
+                    <!--临时目录-->
+                    <temporaryProtoFileDirectory>
+                        ${project.build.directory}/protoc-temp
+                    </temporaryProtoFileDirectory>
+                    <!--protoc可执行文件路径-->
+                    <protocExecutable>
+                        ${project.basedir}/protobuf/protoc3.6.1.exe
+                    </protocExecutable>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

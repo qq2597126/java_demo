@@ -1,5 +1,6 @@
-package io.netty;
+package io.netty.decoder;
 
+import io.netty.NettySocketDemo;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -15,7 +16,7 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
  * @DESC:
  * @date 2020/8/26.
  */
-public class JsonServerDemo {
+public class DecoderServerDemo {
     /**
      * 端口
      */
@@ -36,8 +37,9 @@ public class JsonServerDemo {
 
     private ServerBootstrap serverBootstrap =  null;
 
-    public JsonServerDemo(int port) {
+    public DecoderServerDemo(int port) {
         this.port = port;
+        init();
     }
     private void init(){
         serverBootstrap = new ServerBootstrap();
@@ -52,15 +54,9 @@ public class JsonServerDemo {
 
 
         //初始化相关队列
-        LengthFieldBasedFrameDecoder lengthFieldBasedFrameDecoder = new LengthFieldBasedFrameDecoder(1024, 0, 4, 0, 4););
 
 
-        serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
-            @Override
-            protected void initChannel(SocketChannel socketChannel) throws Exception {
-                socketChannel.pipeline().addLast();
-            }
-        });
+        serverBootstrap.childHandler(new  ChannelInitHandler());
         // 通过bind启动服务
         try {
             ChannelFuture channelFuture= serverBootstrap.bind(port).sync();
@@ -74,5 +70,8 @@ public class JsonServerDemo {
             workEventLoopGroup.shutdownGracefully();
         }
 
+    }
+    public static void main(String[] args) {
+        DecoderServerDemo nettySocketDemo = new DecoderServerDemo(8080);
     }
 }
