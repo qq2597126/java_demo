@@ -17,7 +17,7 @@
         <junit.version>5.6.2</junit.version>
         <guava.version>29.0-jre</guava.version>
         <protobuf.maven.plugin.version>0.6.1</protobuf.maven.plugin.version>
-        <protobuf.java.version>3.13.0</protobuf.java.version>
+        <protobuf.java.version>3.16.1</protobuf.java.version>
     </properties>
 
 
